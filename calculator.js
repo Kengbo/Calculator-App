@@ -7,6 +7,14 @@ let firstNum = '';
 let secondNum = '';
 let operator = '';
 
+const operatorSymbols = {
+    '+': '+',
+    '-': '−',
+    '*': '×',
+    '/': '÷'
+};
+
+
 
 
 const addition = (a, b) => {
@@ -38,7 +46,7 @@ body.addEventListener('click', (e)=>{
         }
         firstNum = parseFloat(screenBottom.value);
         operator = e.target.value;
-        screenTop.value = firstNum + ' ' + operator;
+        screenTop.value = firstNum + ' ' + e.target.textContent;
         screenBottom.value = '';
         
       
@@ -83,18 +91,19 @@ body.addEventListener('click', (e)=>{
         case '/':
             if(secondNum === 0){
                 screenTop.value = 'Cannot divide by Zero';
+                
                 screenBottom.value = '';
                 firstNum = '';
                 secondNum = '';
                 operator = '';
                 return;
             }
-            result = division(firstNum, secondNum);
+           result = division(firstNum, secondNum);
             break;
     }
-
-    screenTop.value = `${firstNum} ${operator} ${secondNum} =`;
-    screenBottom.value = Math.round(result);
+    
+    screenTop.value = `${firstNum} ${operatorSymbols[operator]} ${secondNum} =`;
+    screenBottom.value =parseFloat(result.toFixed(3)) ;
 
     firstNum = result;
     secondNum = '';
