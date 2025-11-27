@@ -59,6 +59,7 @@ body{
     font-size: 1.5em;
     font-weight: 500;
     /* display: disabled; */
+    padding: 10px;
 }
 .btns {
     height: 50px;

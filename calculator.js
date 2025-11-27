@@ -14,8 +14,21 @@ const operatorSymbols = {
     '/': '÷'
 };
 
+// Declare all calculation functions
 
 
+function periodLogic(){
+       if(screenBottom.value == ''){
+        screenBottom.value = '0.';
+        return;
+       }
+       else if (screenBottom.value.includes('.')){
+        return;
+        }
+       else{
+        screenBottom.value +='.';
+       }
+    } 
 
 const addition = (a, b) => {
     return a + b;
@@ -29,42 +42,12 @@ const multiplication = (a, b) => {
 const division = (a, b) => {
     return a / b;
 }
+function sliceLastChar(){
+    screenBottom.value = screenBottom.value.slice(0, -1);
+}
 
-
-body.addEventListener('click', (e)=>{
-   
-    if(e.target.classList.contains('operator')){
-
-        if (screenBottom.value === '') {
-            screenTop.value = 'Enter a number first';
-            return;
-        }
-        else if (screenBottom.value === '0' || screenBottom.value === '00') {
-            screenTop.value = 'Cannot use zero here';
-
-            return;
-        }
-        firstNum = parseFloat(screenBottom.value);
-        operator = e.target.value;
-        screenTop.value = firstNum + ' ' + e.target.textContent;
-        screenBottom.value = '';
+function calculate(){
         
-      
-    }
-      
-      else if(e.target.classList.contains('clear')) {
-        screenBottom.value = '';
-        screenTop.value = '';
-    }  
-     else if(e.target.classList.contains('delete')) {
-        
-        screenBottom.value = screenBottom.value.slice(0, -1);
-    }  
-     else if(e.target.classList.contains('submit')) {
-        
-    
-    
-    
     if (!operator || screenBottom.value === '') {
         return;
     }
@@ -108,27 +91,76 @@ body.addEventListener('click', (e)=>{
     firstNum = result;
     secondNum = '';
     operator = '';
-}
+}    
 
+body.addEventListener('keydown', (kp)=>{
+        
+let kpKey = kp.key;
+
+    if(kpKey === 'Enter'){
+        kp.preventDefault();
+        // calculate function
+    calculate()
+    }
+    if (kpKey === 'Backspace'){
+        kp.preventDefault();
+        sliceLastChar();
+    }
+   if(!isNaN(kpKey)){
+    screenBottom.value += kp.key;
+    }
+   if(kpKey === '.'){
+    periodLogic();
+   }
+   if (kpKey === '+' || kpKey === '-' || kpKey === '*' || kpKey === '/'){
+   
+}
+})
+
+body.addEventListener('click', (e)=>{
+   
+    if(e.target.classList.contains('operator')){
+        
+        if (screenBottom.value === '') {
+            screenTop.value = 'Enter a number first';
+            return;
+        }
+        else if (screenBottom.value === '0' || screenBottom.value === '00') {
+            screenTop.value = 'Cannot use zero here';
+
+            return;
+        }
+        firstNum = parseFloat(screenBottom.value);
+        operator = e.target.value;
+        screenTop.value = firstNum + ' ' + e.target.textContent;
+        screenBottom.value = '';
+        
+      
+    }
+      
+      else if(e.target.classList.contains('clear')) {
+        screenBottom.value = '';
+        screenTop.value = '';
+    }  
+     else if(e.target.classList.contains('delete')) {
+        sliceLastChar();
+        
+    }  
+     else if(e.target.classList.contains('submit')) {
+      
+        // calculate function
+    
+    calculate();}
 // period button
  else if(e.target.classList.contains('period')) {
-       if(screenBottom.value == ''){
-        screenBottom.value = '0.';
-        return;
-       }
-       else if (screenBottom.value.includes('.')){
-        return;
-        }
-       else{
-        screenBottom.value += e.target.value;
-       }
-    } 
+    periodLogic();
+}
 // end of period logic
 
    else if(e.target.classList.contains('btns')){
         screenBottom.value += e.target.value;
         
     }
-       
+   
   
 })
